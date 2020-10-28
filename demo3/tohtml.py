@@ -72,7 +72,4 @@ def main():
         f.write(html)
 
 if __name__=='__main__':
-    # if os.path.exists('index.html'):
-    #     os.remove('index.html')
-    #     print('yes')
     main()
