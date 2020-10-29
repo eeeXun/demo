@@ -1,9 +1,27 @@
-from module import Ui_Frame
+from b2 import Ui_Frame
 from PyQt5.QtWidgets import QApplication,QMainWindow,QWidget
 from PyQt5.QtGui import QFont
 from PyQt5.QtGui import QPainter,QBrush
 from PyQt5.QtCore import Qt,QRectF
 import sys
+
+class draw_circle(QWidget):
+    def __init__(self,circles_point,circles_list):
+        super().__init__()
+        self.setFixedSize(1000,5000)
+        self.circles_point=circles_point
+        self.circles_list=circles_list
+    def paintEvent(self,event):
+        painter=QPainter(self)
+        painter.setBrush(Qt.cyan)
+        for i in self.circles_point:
+            painter.drawEllipse(i)
+
+        painter.setPen(Qt.black)
+        painter.setFont(QFont('txt',15))
+        for i in range(len(self.circles_list)):
+            for j in range(len(self.circles_list[i])):
+                painter.drawText(QRectF(80*j,20+80*i,100,100),Qt.AlignCenter,str(self.circles_list[i][j]))
 
 class Win(QMainWindow,Ui_Frame):
     def __init__(self):
@@ -23,6 +41,7 @@ class Win(QMainWindow,Ui_Frame):
         self.bubble_sort()
         self.circles_point=[]
         self.setPoint()
+        self.draw()
 
     def getTextList(self):
         tmp=self.lineEdit.text().split(',')
@@ -44,20 +63,13 @@ class Win(QMainWindow,Ui_Frame):
     def setPoint(self):
         for i in range(len(self.circles_list)):
             for j in range(len(self.circles_list[i])):
-                self.circles_point.append(QRectF(500+80*j,20+80*i,self.circles_list[i][j]*8,self.circles_list[i][j]*8))
+                self.circles_point.append(QRectF(80*j,20+80*i,self.circles_list[i][j]*8,self.circles_list[i][j]*8))
         self.update()
 
-    def paintEvent(self,event):
-        painter=QPainter(self)
-        painter.setBrush(Qt.cyan)
-        for i in self.circles_point:
-            painter.drawEllipse(i)
+    def draw(self):
+        cir=draw_circle(self.circles_point,self.circles_list)
+        self.scrollArea.setWidget(cir)
 
-        painter.setPen(Qt.black)
-        painter.setFont(QFont('txt',15))
-        for i in range(len(self.circles_list)):
-            for j in range(len(self.circles_list[i])):
-                painter.drawText(QRectF(500+80*j,20+80*i,100,100),Qt.AlignCenter,str(self.circles_list[i][j]))
 
 if __name__=='__main__':
     app=QApplication(sys.argv)
