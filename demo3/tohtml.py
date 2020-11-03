@@ -1,75 +1,56 @@
-import counting
-import os
-def main():
-    d1=''
-    d2=''
-    d3=''
-    d4=''
-    d5=''
-    # log=counting.main()
-    with open('status.log','r') as f:
-        for i in f:
-            status_log=i.split(',')
-            status=int(status_log[0])
-            log=status_log[1]
-            if status>=100 and status<200:
-                d1+='<tr><td>{}</td></tr>'.format(log)
-            elif status>=200 and status<300:
-                d2+='<tr><td>{}</td></tr>'.format(log)
-            elif status>=300 and status<400:
-                d3+='<tr><td>{}</td></tr>'.format(log)
-            elif status>=400 and status<500:
-                d4+='<tr><td>{}</td></tr>'.format(log)
+import csv
+
+def readfile():
+    d1=[]
+    d2=[]
+    d3=[]
+    d4=[]
+    d5=[]
+    with open('./status.log','r') as f:
+        rows=csv.reader(f,delimiter=' ')
+        for row in rows:
+            if 100<=int(row[6])<=199:
+                d1.append(row)
+            elif 200<=int(row[6])<=299:
+                d2.append(row)
+            elif 300<=int(row[6])<=399:
+                d3.append(row)
+            elif 400<=int(row[6])<=499:
+                d4.append(row)
             else:
-                d5+='<tr><td>{}</td></tr>'.format(log)
+                d5.append(row)
+    return d1,d2,d3,d4,d5
 
+def write_html(d1,d2,d3,d4,d5):
+    d1_msg=''
+    d2_msg=''
+    d3_msg=''
+    d4_msg=''
+    d5_msg=''
+    for i in d1:
+        d1_msg+='<tr style="background-color:#5bc0de"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d2:
+        d2_msg+='<tr style="background-color:#5cb85c"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d3:
+        d3_msg+='<tr style="background-color:#0275d8"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d4:
+        d4_msg+='<tr style="background-color:#f0ad4e"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d5:
+        d5_msg+='<tr style="background-color:#d9534f"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
     html='''
-<table border="1">
-    <tr><td>Status</td><td>Log File</td></tr>
-    <tr style="color:#5bc0de">
-        <td>
-            Informational Responses
-        </td>
-        <td>
-            <table border="1" style="color:#5bc0de">{}</table>
-        </td>
-    </tr>
-    <tr style="color:#5cb85c">
-        <td>
-            Successful Responses
-        </td>
-        <td>
-            <table border="1" style="color:#5cb85c">{}</table>
-        </td>
-    </tr>
-    <tr style="color:#0275d8">
-        <td>
-            Redirects
-        </td>
-        <td>
-            <table border="1" style="color:#0275d8">{}</table>
-        </td>
-    </tr>
-    <tr style="color:#f0ad4e">
-        <td>
-            Client Errors
-        </td>
-        <td>
-            <table border="1" style="color:#f0ad4e">{}</table>
-        </td>
-    </tr>
-    <tr style="color:#d9534f">
-        <td>
-            Server Errors
-        </td>
-        <td>
-            <table border="1" style="color:#d9534f">{}</table>
-        </td>
-    </tr>
-</table>'''.format(d1,d2,d3,d4,d5)
-
-    with open('index.html','w') as f:
+<table border=1>
+{}
+{}
+{}
+{}
+{}
+</table>'''.format(d1_msg,d2_msg,d3_msg,d4_msg,d5_msg)
+    with open('new.html','w') as f:
         f.write(html)
+
+def main():
+    d1,d2,d3,d4,d5=readfile()
+    write_html(d1,d2,d3,d4,d5)
 
 if __name__=='__main__':
     main()
