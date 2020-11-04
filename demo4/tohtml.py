@@ -1,50 +1,56 @@
 import csv
 
-def writerow(color,msg,row):
-    msg+='''<tr style="background:{}"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td>
-        <td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td>
-        <td>{}</td>\n'''.format(color,row[0],row[1],row[2],row[3],row[4],row[5],row[6],
-                            row[7],row[8],row[9],row[10],row[11],row[12],row[13])
-    return msg
-
 def readfile():
-    head=''
-    d1=''
-    d2=''
-    d3=''
-    d4=''
-    with open('new.csv','r') as f:
-        rows=csv.reader(f)
-        first_row=True
+    d1=[]
+    d2=[]
+    d3=[]
+    d4=[]
+    d5=[]
+    with open('./status.log','r') as f:
+        rows=csv.reader(f,delimiter=' ')
         for row in rows:
-            if first_row:
-                head=writerow('white',head,row)
-                first_row=False
-                continue
+            if 100<=int(row[6])<=199:
+                d1.append(row)
+            elif 200<=int(row[6])<=299:
+                d2.append(row)
+            elif 300<=int(row[6])<=399:
+                d3.append(row)
+            elif 400<=int(row[6])<=499:
+                d4.append(row)
             else:
-                EBITDA=eval(row[10])
-                if EBITDA<0:
-                    d1=writerow('#d9534f',d1,row)
-                elif EBITDA==0:
-                    d2=writerow('#f0ad4e',d2,row)
-                elif 0<EBITDA<1000000000:
-                    d3=writerow('#5cb85c',d3,row)
-                else:
-                    d4=writerow('#0275d8',d4,row)
-    return head,d1,d2,d3,d4
+                d5.append(row)
+    return d1,d2,d3,d4,d5
 
-def tohtml(head,d1,d2,d3,d4):
+def write_html(d1,d2,d3,d4,d5):
+    d1_msg=''
+    d2_msg=''
+    d3_msg=''
+    d4_msg=''
+    d5_msg=''
+    for i in d1:
+        d1_msg+='<tr style="background-color:#5bc0de"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d2:
+        d2_msg+='<tr style="background-color:#5cb85c"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d3:
+        d3_msg+='<tr style="background-color:#0275d8"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d4:
+        d4_msg+='<tr style="background-color:#f0ad4e"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
+    for i in d5:
+        d5_msg+='<tr style="background-color:#d9534f"><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>\n'.format(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],i[8],i[9])
     html='''
 <table border=1>
-{}{}{}{}{}
-</table>'''.format(head,d1,d2,d3,d4)
-    with open('index.html','w') as f:
+{}
+{}
+{}
+{}
+{}
+</table>'''.format(d1_msg,d2_msg,d3_msg,d4_msg,d5_msg)
+    with open('new.html','w') as f:
         f.write(html)
 
-
 def main():
-    head,d1,d2,d3,d4=readfile()
-    tohtml(head,d1,d2,d3,d4)
+    d1,d2,d3,d4,d5=readfile()
+    write_html(d1,d2,d3,d4,d5)
 
 if __name__=='__main__':
     main()

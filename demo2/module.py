@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'bubble.ui'
+# Form implementation generated from reading ui file 'card.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.1
 #
@@ -14,16 +14,19 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Frame(object):
     def setupUi(self, Frame):
         Frame.setObjectName("Frame")
-        Frame.resize(1980,1080)
+        Frame.resize(1404, 798)
         self.pushButton = QtWidgets.QPushButton(Frame)
-        self.pushButton.setGeometry(QtCore.QRect(70, 440, 141, 61))
+        self.pushButton.setGeometry(QtCore.QRect(130, 350, 181, 71))
         self.pushButton.setObjectName("pushButton")
-        self.lineEdit = QtWidgets.QLineEdit(Frame)
-        self.lineEdit.setGeometry(QtCore.QRect(0, 340, 281, 71))
-        self.lineEdit.setObjectName("lineEdit")
         self.label = QtWidgets.QLabel(Frame)
-        self.label.setGeometry(QtCore.QRect(110, 230, 91, 61))
+        self.label.setGeometry(QtCore.QRect(180, 130, 101, 41))
         self.label.setObjectName("label")
+        self.lineEdit = QtWidgets.QLineEdit(Frame)
+        self.lineEdit.setGeometry(QtCore.QRect(10, 230, 451, 71))
+        self.lineEdit.setObjectName("lineEdit")
+        self.label_1 = QtWidgets.QLabel(Frame)
+        self.label_1.setGeometry(QtCore.QRect(630, 90, 681, 531))
+        self.label_1.setObjectName("label_2")
 
         self.retranslateUi(Frame)
         QtCore.QMetaObject.connectSlotsByName(Frame)
@@ -31,5 +34,6 @@ class Ui_Frame(object):
     def retranslateUi(self, Frame):
         _translate = QtCore.QCoreApplication.translate
         Frame.setWindowTitle(_translate("Frame", "Frame"))
-        self.pushButton.setText(_translate("Frame", "YES"))
-        self.label.setText(_translate("Frame", "Input:"))
+        self.pushButton.setText(_translate("Frame", "Yes"))
+        self.label.setText(_translate("Frame", "Your Card:"))
+        self.label_1.setText(_translate("Frame", "TextLabel"))
