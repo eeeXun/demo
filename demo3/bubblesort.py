@@ -2,26 +2,26 @@ from b2 import Ui_Frame
 from PyQt5.QtWidgets import QApplication,QMainWindow,QWidget
 from PyQt5.QtGui import QFont
 from PyQt5.QtGui import QPainter,QBrush
-from PyQt5.QtCore import Qt,QRectF
+from PyQt5.QtCore import Qt,QRectF,QPoint
 import sys
 
 class draw_circle(QWidget):
     def __init__(self,circles_point,circles_list):
         super().__init__()
-        self.setFixedSize(1000,5000)
+        self.setFixedSize(10000,10000)
         self.circles_point=circles_point
         self.circles_list=circles_list
     def paintEvent(self,event):
         painter=QPainter(self)
         painter.setBrush(Qt.cyan)
         for i in self.circles_point:
-            painter.drawEllipse(i)
+            painter.drawEllipse(i[0],i[1],i[2])
 
         painter.setPen(Qt.black)
         painter.setFont(QFont('txt',15))
         for i in range(len(self.circles_list)):
             for j in range(len(self.circles_list[i])):
-                painter.drawText(QRectF(80*j,20+80*i,100,100),Qt.AlignCenter,str(self.circles_list[i][j]))
+                painter.drawText(QRectF(200*j,20+200*i,100,100),Qt.AlignCenter,str(self.circles_list[i][j]))
 
 class Win(QMainWindow,Ui_Frame):
     def __init__(self):
@@ -63,7 +63,7 @@ class Win(QMainWindow,Ui_Frame):
     def setPoint(self):
         for i in range(len(self.circles_list)):
             for j in range(len(self.circles_list[i])):
-                self.circles_point.append(QRectF(80*j,20+80*i,self.circles_list[i][j]*8,self.circles_list[i][j]*8))
+                self.circles_point.append([QPoint(50+200*j,70+200*i),self.circles_list[i][j]*8,self.circles_list[i][j]*8])
         self.update()
 
     def draw(self):
