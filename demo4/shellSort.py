@@ -1,5 +1,22 @@
-def shellsort(EBITDA_csv):
-    size_csv=len(EBITDA_csv)
+import csv
+
+def readfile():
+    with open('/home/xun/Downloads/500_constituents_financial.csv','r') as f:
+        first_row=True
+        head=[]
+        csv_read=[]
+        rows=csv.reader(f)
+        for row in rows:
+            if first_row:
+                head=row
+                first_row=False
+                continue
+            else:
+                csv_read.append(row)
+        return head,csv_read
+
+def shellsort(csv_read):
+    size_csv=len(csv_read)
     gap=1
     while gap<size_csv:
         gap=gap*3+1
@@ -9,42 +26,25 @@ def shellsort(EBITDA_csv):
         key_list=[]
         j=int
         for i in range(gap,size_csv):
-            key=EBITDA_csv[i][0]
-            key_list=EBITDA_csv[i]
+            key=eval(csv_read[i][10])
+            key_list=csv_read[i]
             j=i-gap
-            while j>=0 and key<EBITDA_csv[j][0]:
-                EBITDA_csv[j+gap]=EBITDA_csv[j]
+            while j>=0 and key<eval(csv_read[j][10]):
+                csv_read[j+gap]=csv_read[j]
                 j-=gap
-            EBITDA_csv[j+gap]=key_list
+            csv_read[j+gap]=key_list
 
-def readfile(EBITDA_csv):
-    with open('/home/xun/Downloads/500_constituents_financial.csv','r') as f:
-        first_row=True
-        for row in f:
-            if first_row:
-                first_row=False
-                continue
-            else:
-                tmp=row.split(',')
-                if '"' in row:
-                    EBITDA=tmp[10]
-                else:
-                    EBITDA=tmp[9]
-                if 'E' in EBITDA:
-                    EBITDA_csv.append([int(eval(EBITDA)),row])
-                else:
-                    EBITDA_csv.append([int(EBITDA),row])
-
-def writefile(EBITDA_csv):
+def writefile(head,csv_read):
     with open('new.csv','w') as f:
-        for i in EBITDA_csv:
-            f.write(str(i[0])+'|'+i[1])
+        writer=csv.writer(f)
+        writer.writerow(head)
+        for i in csv_read:
+            writer.writerow(i)
 
 def main():
-    EBITDA_csv=[]
-    readfile(EBITDA_csv)
-    shellsort(EBITDA_csv)
-    writefile(EBITDA_csv)
+    head,csv_read=readfile()
+    shellsort(csv_read)
+    writefile(head,csv_read)
 
 if __name__=='__main__':
     main()
