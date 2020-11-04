@@ -31,14 +31,6 @@ class Win(QMainWindow,Ui_Frame):
             self.count.append(suit[card[0]]+num[card[1:]])
 
     def selection_sort(self):
-        # for i in range(1,len(self.cards)):
-        #     key_count=self.count[i]
-        #     key_card=self.cards[i]
-        #     j=i-1
-        #     while j>=0 and key_count>self.count[j]:
-        #         self.count[j+1]=self.count[j]
-        #         self.cards[j+1]=self.cards[j]
-        #         j-=1
         for i in range(len(self.cards)):
             index_max=i
             for j in range(i+1,len(self.cards)):
