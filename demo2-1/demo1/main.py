@@ -1,5 +1,5 @@
 from UI import Ui_Frame
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt5.QtGui import QPainter, QBrush, QFont
 from PyQt5.QtCore import Qt, QRectF, QPoint
 import sys
