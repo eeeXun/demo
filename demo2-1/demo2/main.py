@@ -95,6 +95,10 @@ class SubWin(QWidget):
         tmp_count = 1
         item_width = 200
         item_height = 20
+        for i in range(self.N + 1):
+            for j in range(self.N + 1):
+                painter.drawRect(QRect(0 + item_width * j, 0 + item_height * i,
+                                       item_width, item_height))
         for item in self.myItems:
             painter.drawText(QRectF(tmp_count * item_width, 0, item_width, item_height),
                              Ingredients[item])
