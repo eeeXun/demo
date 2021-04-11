@@ -1,7 +1,7 @@
 from UI import Ui_Frame
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from PyQt5.QtGui import QPainter, QBrush, QFont
-from PyQt5.QtCore import Qt, QRectF, QPoint
+from PyQt5.QtCore import Qt, QRectF, QPoint, QRect
 import sys
 
 Ingredients = {"Salmon": {"size": 153, "value": 253}, "Tuna": {"size": 260, "value": 530},
@@ -26,7 +26,7 @@ class SubWin(QWidget):
         consider_x = 0
         consider_y = 0
         consider_height = 30
-        item_x = 0
+        item_x = -200
         item_y = 30
         item_width = 200
         item_height = 30
@@ -36,8 +36,6 @@ class SubWin(QWidget):
             painter.drawText(QRectF(consider_x, consider_y, consider_width, consider_height),
                              "僅考慮 " + consider)
             for item in self.considerings[consider]:
-                painter.drawText(QRectF(item_x, item_y, item_width, item_height), item)
-                tmp_count += 1
                 if tmp_count == 4:
                     tmp_count = 0
                     item_x = 0
@@ -45,8 +43,11 @@ class SubWin(QWidget):
                     consider_y += 30
                 else:
                     item_x += 200
+                painter.drawRect(QRect(item_x, item_y, item_width, item_height))
+                painter.drawText(QRectF(item_x, item_y, item_width, item_height), item)
+                tmp_count += 1
             consider_y += 100
-            item_x = 0
+            item_x = -200
             item_y += 100
             tmp_count = 0
 
@@ -122,6 +123,7 @@ class Win(QMainWindow, Ui_Frame):
             tmp_label += ",拿{} {}個".format(item, tmp_max[item])
         tmp_label += ",得總價值 {}".format(tmp_value)
         self.label_3.setText(tmp_label)
+        self.label_3.setFont(QFont("Monospace", 15))
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
