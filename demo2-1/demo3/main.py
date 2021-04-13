@@ -32,53 +32,38 @@ class SubWin(QWidget):
         painter = QPainter(self)
         painter.setFont(QFont("Monospace", 15))
         painter.setPen(Qt.white)
-        # Original
-        for path in self.allPaths:
-            startShop = path[0]
-            endShop = path[1]
-            startX = self.shop_Points[startShop][0]
-            startY = self.shop_Points[startShop][1]
-            endX = self.shop_Points[endShop][0]
-            endY = self.shop_Points[endShop][1]
-            painter.drawLine(startX, startY, endX, endY)
-            painter.drawText(QRectF((startX + endX) / 2,
-                                    (startY + endY) / 2,
-                                    rx, ry), str(path[2]))
-        for shop in self.shop_Points:
-            tmp_centerX = self.shop_Points[shop][0]
-            tmp_centerY = self.shop_Points[shop][1]
-            painter.drawEllipse(QPoint(tmp_centerX, tmp_centerY), rx, ry)
-            painter.drawText(QRectF(tmp_centerX - rx, tmp_centerY - ry, 2 * rx, 2 * ry),
-                             Qt.AlignCenter, shop)
         # draw Algorithm
-        for i in range(len(self.myPaths)):
-            shiftY = 500
+        shiftY = 500
+        for i in range(len(self.myPaths) + 1):
             painter.setPen(Qt.white)
             for path in self.allPaths:
                 startShop = path[0]
                 endShop = path[1]
                 startX = self.shop_Points[startShop][0]
-                startY = self.shop_Points[startShop][1] + (i + 1) * shiftY
+                startY = self.shop_Points[startShop][1] + (i) * shiftY
                 endX = self.shop_Points[endShop][0]
-                endY = self.shop_Points[endShop][1] + (i + 1) * shiftY
+                endY = self.shop_Points[endShop][1] + (i) * shiftY
                 painter.drawLine(startX, startY, endX, endY)
-                painter.drawText(QRectF((startX + endX) / 2,
-                                        (startY + endY) / 2,
-                                        rx, ry), str(path[2]))
+                # painter.drawText(QRectF((startX + endX) / 2,
+                #                         (startY + endY) / 2,
+                #                         rx, ry), str(path[2]))
+                painter.drawText(QRectF(startX / 3 + 2 * endX / 3,
+                                       startY / 3 + 2 * endY / 3,
+                                       rx, ry), str(path[2]))
             for shop in self.shop_Points:
                 tmp_centerX = self.shop_Points[shop][0]
-                tmp_centerY = self.shop_Points[shop][1] + (i + 1) * shiftY
+                tmp_centerY = self.shop_Points[shop][1] + (i) * shiftY
                 painter.drawEllipse(QPoint(tmp_centerX, tmp_centerY), rx, ry)
                 painter.drawText(QRectF(tmp_centerX - rx, tmp_centerY - ry, 2 * rx, 2 * ry),
                                  Qt.AlignCenter, shop)
             painter.setPen(Qt.red)
-            for j in range(i + 1):
+            for j in range(i):
                 startShop = self.myPaths[j][0]
                 endShop = self.myPaths[j][1]
                 startX = self.shop_Points[startShop][0]
-                startY = self.shop_Points[startShop][1] + (i + 1) * shiftY
+                startY = self.shop_Points[startShop][1] + (i) * shiftY
                 endX = self.shop_Points[endShop][0]
-                endY = self.shop_Points[endShop][1] + (i + 1) * shiftY
+                endY = self.shop_Points[endShop][1] + (i) * shiftY
                 painter.drawLine(startX, startY, endX, endY)
 
 class Win(QMainWindow, Ui_Frame):

@@ -118,7 +118,7 @@ class Win(QMainWindow, Ui_Frame):
             else:
                 tmp_max[item] +=1
             tmp_value += Ingredients[item]["value"]
-        tmp_label = "當背包大小為 670"
+        tmp_label = "當胃容量大小為{}".format(self.totalSize)
         for item in tmp_max:
             tmp_label += ",拿{} {}個".format(item, tmp_max[item])
         tmp_label += ",得總價值 {}".format(tmp_value)
